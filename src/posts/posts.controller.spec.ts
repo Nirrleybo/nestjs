@@ -16,7 +16,7 @@ describe('PostsController', () => {
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      expect(postsController.getHello()).toBe('Hello World!');
+      expect(postsController.getAllPosts()).toBe([]);
     });
   });
 });
