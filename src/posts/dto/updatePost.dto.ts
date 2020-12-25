@@ -5,10 +5,10 @@ export class UpdatePostDto {
   @IsOptional()
   id: number;
 
-  @IsString({each: true})
+  @IsString()
   @IsNotEmpty()
   @IsOptional()
-  paragraphs: string[];
+  content: string;
 
   @IsString()
   @IsNotEmpty()
