@@ -8,15 +8,17 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    PostsModule, 
+    PostsModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
+        PORT: Joi.number(),
         POSTGRES_HOST: Joi.string().required(),
         POSTGRES_PORT: Joi.number().required(),
         POSTGRES_USER: Joi.string().required(),
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_DB: Joi.string().required(),
-        PORT: Joi.number(),
+        JWT_SECRET: Joi.string().required(),
+        JWT_EXPIRATION_TIME: Joi.string().required(),
       })
     }),
     DatabaseModule,
@@ -26,4 +28,4 @@ import { UsersModule } from './users/users.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
