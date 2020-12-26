@@ -3,18 +3,19 @@ import { PostsService } from './posts.service';
 import CreatePostDto from './dto/createPost.dto';
 import UpdatePostDto from './dto/updatePost.dto';
 import JwtAuthenticationGuard from 'src/authentication/passports/jwt.guard';
+import FindOneParams from './validators/findOneParams';
 
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
-  
+  constructor(private readonly postsService: PostsService) { }
+
   @Get()
   async getAllPosts() {
     return await this.postsService.getAllPosts();
   }
 
   @Get(':id')
-  getPostById(@Param('id') id: string) {
+  getPostById(@Param() { id }: FindOneParams) {
     return this.postsService.getPostById(Number(id));
   }
 
