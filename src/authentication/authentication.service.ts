@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import PostgresErrorCode from '../database/postgresErrorCodes.enum';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import TokenPayload from './tokenPayload.interface';
 
 @Injectable()
 export class AuthenticationService {
@@ -51,5 +52,15 @@ export class AuthenticationService {
         if (!isPasswordMatching) {
             throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public getCookieWithJwtToken(userId: number) {
+        const payload: TokenPayload = { userId };
+        const token = this.jwtService.sign(payload);
+        return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('JWT_EXPIRATION_TIME')}`;
+    }
+
+    public getCookieForLogOut() {
+        return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
     }
 }
