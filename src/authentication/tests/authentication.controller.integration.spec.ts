@@ -77,6 +77,7 @@ describe('The AuthenticationController', () => {
             name: mockedUser.name,
             password: 'strongPassword'
           })
+          .expect('set-cookie', 'Authentication=jwt_token_123; HttpOnly; Path=/; Max-Age=undefined')
           .expect(201)
           .expect(expectedData);
       })

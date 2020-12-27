@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import { Body, Req, Controller, HttpCode, Post, UseGuards, Get } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import RegisterDto from './dto/register.dto';
@@ -18,8 +19,11 @@ export class AuthenticationController {
     }
 
     @Post('register')
-    async register(@Body() registrationData: RegisterDto) {
-        return await this.authenticationService.register(registrationData);
+    async register(@Req() request: Request ,@Body() registrationData: RegisterDto) {
+        const user = await this.authenticationService.register(registrationData);
+        const cookie = this.authenticationService.getCookieWithJwtToken(user.id);
+        request.res.setHeader('Set-Cookie', cookie);
+        return user;
     }
 
     @HttpCode(200)
