@@ -30,7 +30,7 @@ export class AuthenticationService {
             createdUser.password = undefined;
             return createdUser;
         } catch (error) {
-            console.log(`[AuthenticationService register] ${error}`)
+            // console.log(`[AuthenticationService register] ${error}`)
             if (error?.code === PostgresErrorCode.UniqueViolation) {
                 throw new HttpException('User with that email already exists [2]', HttpStatus.BAD_REQUEST);
             }
@@ -45,7 +45,8 @@ export class AuthenticationService {
             user.password = undefined;
             return user;
         } catch (error) {
-            throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST);
+            //console.log(`[AuthenticationService getAuthenticatedUser] ${error}`)
+            throw new HttpException('Wrong credentials provided', HttpStatus.UNAUTHORIZED);
         }
     }
 
