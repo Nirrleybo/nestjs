@@ -58,4 +58,6 @@ npm run test:cov
 ## Ref
 [tutorial](https://wanago.io/2020/07/06/api-nestjs-unit-tests/)
 
+## TODO
 
+1. sign in user after registring
