@@ -7,10 +7,24 @@ import User from '../../users/user.entity';
 import { UsersService } from '../../users/users.service';
 import mockedJwtService from '../../mocks/jwt.service';
 import mockedConfigService from '../../mocks/config.service';
- 
+import mockedUser from './user.mock';
+
 describe('The AuthenticationService', () => {
   let authenticationService: AuthenticationService;
+  let userData: User;
+  let findUserMock: jest.Mock;
+
   beforeEach(async () => {
+    userData = {
+      ...mockedUser
+    }
+    findUserMock = jest.fn().mockResolvedValue(userData);
+    const usersRepository = {
+      create: jest.fn().mockResolvedValue(userData),
+      save: jest.fn().mockReturnValue(Promise.resolve()),
+      findOne: findUserMock
+    }
+
     const module = await Test.createTestingModule({
       providers: [
         UsersService,
@@ -25,7 +39,7 @@ describe('The AuthenticationService', () => {
         },
         {
           provide: getRepositoryToken(User),
-          useValue: {}
+          useValue: usersRepository
         }
       ],
     }).compile();
@@ -38,6 +52,25 @@ describe('The AuthenticationService', () => {
       expect(
         typeof authenticationService.getCookieWithJwtToken(userId)
       ).toEqual('string')
+    })
+  })
+  describe('when registreting a new user', () => {
+    beforeEach(() => {
+      findUserMock.mockResolvedValue(undefined);
+    })
+    it('should return a user instance', async () => {
+      let expectedData = { ...userData }
+      delete expectedData.password;
+      const user = await authenticationService.register(mockedUser)
+      expect(user).toEqual(expectedData)
+    })
+  })
+  describe('when registreting an existing user', () => {
+    beforeEach(() => {
+      findUserMock.mockResolvedValue(mockedUser);
+    })
+    it('should throw an exception', async () => {
+      await expect(authenticationService.register(mockedUser)).rejects.toThrow();
     })
   })
 });

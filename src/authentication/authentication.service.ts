@@ -16,8 +16,13 @@ export class AuthenticationService {
     ) { }
 
     public async register(registrationData: RegisterDto) {
-        const hashedPassword = await bcrypt.hash(registrationData.password, 10);
+        const isExist = await this.usersService.isUserEmailExist(registrationData.email);
+        if(isExist) {
+            throw new HttpException('User with that email already exists [1]', HttpStatus.BAD_REQUEST);
+        }
+
         try {
+            const hashedPassword = await bcrypt.hash(registrationData.password, 10);
             const createdUser = await this.usersService.create({
                 ...registrationData,
                 password: hashedPassword
@@ -25,9 +30,9 @@ export class AuthenticationService {
             createdUser.password = undefined;
             return createdUser;
         } catch (error) {
-            console.log(`[AuthenticationService] ${error}`)
+            console.log(`[AuthenticationService register] ${error}`)
             if (error?.code === PostgresErrorCode.UniqueViolation) {
-                throw new HttpException('User with that email already exists', HttpStatus.BAD_REQUEST);
+                throw new HttpException('User with that email already exists [2]', HttpStatus.BAD_REQUEST);
             }
             throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
         }

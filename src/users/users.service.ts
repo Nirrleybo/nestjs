@@ -27,6 +27,16 @@ export class UsersService {
         throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
     }
 
+    async isUserEmailExist(email: string): Promise<boolean> {
+        let exist = true;
+        try {
+            await this.getByEmail(email);
+        } catch (e) {
+            exist = false;
+        }
+        return exist;
+    }
+
     async create(userData: CreateUserDto) {
         const newUser = await this.usersRepository.create(userData);
         await this.usersRepository.save(newUser);
