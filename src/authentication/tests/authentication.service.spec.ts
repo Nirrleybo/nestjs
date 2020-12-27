@@ -28,10 +28,10 @@ describe('The AuthenticationService', () => {
           useValue: {}
         }
       ],
-    })
-      .compile();
+    }).compile();
     authenticationService = await module.get(AuthenticationService);
   })
+
   describe('when creating a cookie', () => {
     it('should return a string', () => {
       const userId = 1;
