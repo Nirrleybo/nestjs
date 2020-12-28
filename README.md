@@ -55,9 +55,34 @@ npm run test:cov
 
 [Debug](https://medium.com/javascript-in-plain-english/debugging-nestjs-in-vscode-d474a088c63b)
 
+## Deploy
+The app will be depployed to [Heroku](https://dashboard.heroku.com/apps/mynestjs).
+
+### Creating Postgres DB in Heroku
+Before we can deploy the app, we need to create a Postgress db in Heroku and to set the db credencials in a config file.
+1. [doc](https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-node-js)
+2. App [Postgress dashboard](https://data.heroku.com/datastores/710b611b-3910-4106-91ab-74b388759c46#) and also in [here](https://devcenter.heroku.com/articles/getting-started-with-nodejs#provision-a-database)
+3. After creating the db, find the db credencials in the db [dashboard page](https://data.heroku.com/datastores/710b611b-3910-4106-91ab-74b388759c46#administration)
+4. To set the environmetn variables, go to the app [dashboard's settings](https://dashboard.heroku.com/apps/mynestjs/settings) page. Scroll down to `Config Vars` and click on `Reveal Config Vars`.
+5. Fill in the Postgress, JWT and other vars.
+
+### Usfull deployment comands
+```sh
+# Do only once
+heroku login
+
+# Do only once
+heroku git:remote -a mynestjs
+
+# Deploy
+git push heroku master
+
+# Watch app logs
+heroku logs --tail
+```
 ## Ref
-[tutorial](https://wanago.io/2020/07/06/api-nestjs-unit-tests/)
+Nestjs [tutorial](https://wanago.io/2020/07/06/api-nestjs-unit-tests/)
 
 ## TODO
 
-1. sign in user after registring
+1. [Done] sign in user after registring
