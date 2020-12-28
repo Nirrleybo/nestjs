@@ -26,8 +26,6 @@ npm install
 # PGAdmin: host.docker.internal
 docker-compose up -d
 
-Name: 
-
 # development
 npm run start
 
@@ -56,7 +54,7 @@ npm run test:cov
 [Debug](https://medium.com/javascript-in-plain-english/debugging-nestjs-in-vscode-d474a088c63b)
 
 ## Deploy
-The app will be depployed to [Heroku](https://dashboard.heroku.com/apps/mynestjs).
+The app will be deployed to [Heroku](https://dashboard.heroku.com/apps/mynestjs).
 
 ### Creating Postgres DB in Heroku
 Before we can deploy the app, we need to create a Postgress db in Heroku and to set the db credencials in a config file.
