@@ -20,20 +20,6 @@ jobs:
           release_body: |
             ENV: Prod
             SHA: ${{ github.sha }}
+            **PATH**: ${{ vars.GITHUB_WORKFLOW_REF }}
 
-  test_release:
-    runs-on: ubuntu-latest
-    name: Test Release
-    steps:            
-      - name: Tag TEST release
-        uses: rymndhng/release-on-push-action@8e3c8b4b322c06d1032728971a4eb076e45cd33e
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          bump_version_scheme: norelease
-          release_name: '[Test] <RELEASE_TAG>'
-          tag_prefix: 'test-'
-          release_body: |
-            ENV: Test
-            SHA: ${{ github.sha }}
             
