@@ -16,8 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          bump_version_scheme: norelease
-          dry_run: true
+          bump_version_scheme: minor
           release_name: |
             Name of the release. Supports these template variables:
               <RELEASE_VERSION>
