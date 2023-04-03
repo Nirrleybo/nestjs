@@ -1,0 +1,45 @@
+name: Deploy Backstage To Test
+
+on: push
+
+permissions:
+  contents: write # Needed for release step
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: Prod Release
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Show default environment variables
+        run: |
+          echo "The job_id is: $GITHUB_JOB"   # reference the default environment variables
+          echo "The id of this action is: $GITHUB_ACTION"   # reference the default environment variables
+          echo "The run id is: $GITHUB_RUN_ID"
+          echo "Link to action: ${{ github.server_url }}/${{ github.repository }}/runs/$GITHUB_RUN_ID"
+          echo "The GITHUB_WORKFLOW_REF: $GITHUB_WORKFLOW_REF"
+          echo "GitHub SHA: $GITHUB_SHA"
+      - name: Tag PROD release
+        uses: rymndhng/release-on-push-action@8e3c8b4b322c06d1032728971a4eb076e45cd33e
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTION_PATH: "${{ github.server_url }}/${{ github.repository }}/runs/${{ env.GITHUB_RUN_ID }}"
+        with:
+          bump_version_scheme: patch
+          release_body: |
+            ENV: Prod
+            SHA: ${{ github.sha }}
+            **PATH**: ${{ env.ACTION_PATH }}
+            
