@@ -30,9 +30,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          bump_version_scheme: patch
+          bump_version_scheme: norelease
           release_name: '[Test] <RELEASE_TAG>'
-          tag_prefix: 'v.test'
+          tag_prefix: 'test-'
           release_body: |
             ENV: Test
             SHA: ${{ github.sha }}
