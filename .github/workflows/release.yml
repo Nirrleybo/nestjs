@@ -11,6 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     name: Prod Release
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
       - name: Tag PROD release
         uses: rymndhng/release-on-push-action@8e3c8b4b322c06d1032728971a4eb076e45cd33e
         env:
@@ -20,6 +32,6 @@ jobs:
           release_body: |
             ENV: Prod
             SHA: ${{ github.sha }}
-            **PATH**: $GITHUB_WORKFLOW_REF
+            **PATH**: ${{ github.WORKFLOW_REF }}
 
             
