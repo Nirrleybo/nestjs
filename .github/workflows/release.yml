@@ -39,6 +39,5 @@ jobs:
           release_body: |
             ENV: Prod
             SHA: ${{ github.sha }}
-            **PATH**: ${{ github.WORKFLOW_REF }}
-
+            **PATH**: 'https://github.com/Nirrleybo/nestjs/actions/runs/$GITHUB_RUN_ID/'
             
