@@ -20,6 +20,6 @@ jobs:
           release_body: |
             ENV: Prod
             SHA: ${{ github.sha }}
-            **PATH**: ${{ vars.GITHUB_WORKFLOW_REF }}
+            **PATH**: $GITHUB_WORKFLOW_REF
 
             
