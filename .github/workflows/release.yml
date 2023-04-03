@@ -1,0 +1,24 @@
+name: Deploy Backstage To Test
+
+on: push
+
+permissions:
+  contents: write # Needed for release step
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: release
+    steps:
+      - name: Tag release
+        uses: rymndhng/release-on-push-action@8e3c8b4b322c06d1032728971a4eb076e45cd33e
+        env:
+          GITHUB_TOKEN: ${{ secrets.CAZOO_PLATFORM_BOT_REPO_TOKEN }}
+        with:
+          bump_version_scheme: norelease
+          dry_run: true
+          release_name: |
+            Name of the release. Supports these template variables:
+              <RELEASE_VERSION>
+              <RELEASE_TAG>
