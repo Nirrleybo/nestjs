@@ -28,6 +28,7 @@ jobs:
           echo "The job_id is: $GITHUB_JOB"   # reference the default environment variables
           echo "The id of this action is: $GITHUB_ACTION"   # reference the default environment variables
           echo "The run id is: $GITHUB_RUN_ID"
+          echo "Link to action: ${{ github.server_url }}/${{ github.repository }}/runs/$GITHUB_RUN_ID"
           echo "The GITHUB_WORKFLOW_REF: $GITHUB_WORKFLOW_REF"
           echo "GitHub SHA: $GITHUB_SHA"
       - name: Tag PROD release
