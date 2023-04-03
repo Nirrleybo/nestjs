@@ -9,15 +9,33 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    name: release
+    name: Prod Release
     steps:
-      - name: Tag release
+      - name: Tag PROD release
         uses: rymndhng/release-on-push-action@8e3c8b4b322c06d1032728971a4eb076e45cd33e
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          bump_version_scheme: minor
+          bump_version_scheme: patch
+          release_name: '[Prod] <RELEASE_TAG>'
+          release_body: |
+            ENV: Prod
+            SHA: ${{ github.sha }}
+            IMAGE: 123456789.dkr.ecr.eu-west-1.amazonaws.com/backstage-image:${{ github.sha }}
+
+  test_release:
+    runs-on: ubuntu-latest
+    name: Test Release
+    steps:            
+      - name: Tag TEST release
+        uses: rymndhng/release-on-push-action@8e3c8b4b322c06d1032728971a4eb076e45cd33e
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          bump_version_scheme: norelease
+          release_name: '[Test] <RELEASE_TAG>'
+          tag_prefix: 'test.v'
           release_body: |
             ENV: Test
             SHA: ${{ github.sha }}
-            IMAGE: ${{ env.ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/backstage-image:${{ github.sha }}
+            IMAGE: 123456789.dkr.ecr.eu-west-1.amazonaws.com/backstage-image:${{ github.sha }}
