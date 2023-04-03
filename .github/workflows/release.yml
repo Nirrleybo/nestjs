@@ -17,7 +17,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           bump_version_scheme: minor
-          release_name: |
-            Name of the release. Supports these template variables:
-              <RELEASE_VERSION>
-              <RELEASE_TAG>
+          release_body: |
+            ENV: Test
+            SHA: ${{ github.sha }}
+            IMAGE: ${{ env.ACCOUNT_ID }}.dkr.ecr.eu-west-1.amazonaws.com/backstage-image:${{ github.sha }}
